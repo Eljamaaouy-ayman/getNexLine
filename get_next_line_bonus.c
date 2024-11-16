@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ael-jama <ael-jama@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/10 14:38:36 by ael-jama          #+#    #+#             */
-/*   Updated: 2024/11/16 10:46:52 by ael-jama         ###   ########.fr       */
+/*   Created: 2024/11/16 09:53:50 by ael-jama          #+#    #+#             */
+/*   Updated: 2024/11/16 11:35:19 by ael-jama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*ft_rest(char *stock)
 {
@@ -109,47 +109,34 @@ char	*ft_read(int fd, char *stock)
 
 char	*get_next_line(int fd)
 {
-	static char	*stock;
+	static char	*stock[MAX_FD];
 	char		*res;
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || BUFFER_SIZE >= INT_MAX)
 		return (NULL);
-	stock = ft_read(fd, stock);
-	if (!stock)
+	stock[fd] = ft_read(fd, stock[fd]);
+	if (!stock[fd])
 		return (NULL);
-	res = ft_line(stock);
-	stock = ft_rest(stock);
+	res = ft_line(stock[fd]);
+	stock[fd] = ft_rest(stock[fd]);
 	return (res);
 }
 
-// int	main(void)
-// {
-// 	int	fd;
+int main(){
+    	int	fd;
 
-// 	fd = open("ayman.txt", O_RDWR);
-//     char *s = get_next_line(fd);
-//     while(s != NULL){
-//         printf("%s", s);
-//         s = get_next_line(fd);
-//     }
+	fd = open("ayman.txt", O_RDWR);
+        	int	fd2;
 
-//     // printf("%s", get_next_line(fd));
-//     // printf("%s", get_next_line(fd));
-//     // printf("%s", get_next_line(fd));
-//     // printf("%s", get_next_line(fd));
-//     // printf("%s", get_next_line(fd));
-//     // printf("%s", get_next_line(fd));
-//     // printf("%s", get_next_line(fd));
-//     // printf("%s", get_next_line(fd));
-//     // printf("%s", get_next_line(fd));
-//     // printf("%s", get_next_line(fd));
-//     // printf("%s", get_next_line(fd));
-//     // printf("%s", get_next_line(fd));
-//     // printf("%s", get_next_line(fd));
-//     // printf("%s", get_next_line(fd));
-//     char *s = get_next_line(fd);
-//     while(s != NULL){
-//         printf("%s", s);
-//         s = get_next_line(fd);
-//     }
-// }
+	fd2 = open("akram.txt", O_RDWR);
+    char *s = get_next_line(fd);
+    while(s != NULL){
+        printf("%s", s);
+        s = get_next_line(fd);
+    }
+    char *s2 = get_next_line(fd2);
+    while(s2 != NULL){
+        printf("%s", s2);
+        s2 = get_next_line(fd2);
+    }
+}
